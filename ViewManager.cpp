@@ -1,3 +1,19 @@
+/*
+Author: Melissa Cianfarano
+Original Completion: 07/20/2024
+Project Objection: Create a 3D model scene using texture, cameras, light, color, and object rendering.
+Add navigational components with hot keys for navigation to pan all directions as well as track mouse movements.
+Project Revision: 03/23/2025
+Revision Objection: Add a new complex object to the scene with appropriate textures, pathways, methods, and meshes.
+Combine object methods and clean up code.
+*/
+
+/*
+Author: Melissa Cianfarano
+Sections edited: CreateDisplayWindow(glfSetScrollCallback) 
+Sections added: Mouse_Position_Callback, all hot key and movement methods in ProcessKeyboardEvents,
+*/
+
 ///////////////////////////////////////////////////////////////////////////////
 // viewmanager.h
 // ============
@@ -101,15 +117,13 @@ GLFWwindow* ViewManager::CreateDisplayWindow(const char* windowTitle)
 	glfwMakeContextCurrent(window);
 
 	// tell GLFW to capture all mouse events
-	//((((((((((((((((((((((((( Took off inline comment ))))))))))))))))))))
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// this callback is used to receive mouse moving events
 	glfwSetCursorPosCallback(window, &ViewManager::Mouse_Position_Callback);
 
-	//(((((((((( This callback will receive mouse wheel scrolling events)))))))
+	// This callback receives mouse wheel scrolling events
 	glfwSetScrollCallback(window, &ViewManager::Mouse_Scroll_Wheel_Callback);
-
 
 	// enable blending for supporting tranparent rendering
 	glEnable(GL_BLEND);
@@ -128,28 +142,24 @@ GLFWwindow* ViewManager::CreateDisplayWindow(const char* windowTitle)
  ***********************************************************/
 void ViewManager::Mouse_Position_Callback(GLFWwindow* window, double xMousePos, double yMousePos)
 {
-	//(((((((((((((((((((((( first mouse event recorded )))))))))))))))
+	// Records first mouse event
 	if (gFirstMouse) {
 		gLastX = xMousePos;
 		gLastY = yMousePos;
 		gFirstMouse = false;
 	}
 
-	//(((((((((((((((((((((((( Movement recorded ))))))))))))))))))))))
+	// Records movement
 	float xOffset = xMousePos - gLastX;
 	float yOffset = gLastY - yMousePos;
 
-	//((((((((((((((((((((( Set new position to last position ))))))))))))))))))))
+	// Sets new position to last position
 	gLastX = xMousePos;
 	gLastY = yMousePos;
 
-	//(((((((((((((((((((( Move camera according to calculation offsets ))))))))))))
+	// Moves camera according to calculation offsets
 	g_pCamera->ProcessMouseMovement(xOffset, yOffset);
 }
-
-
-//((((((((((((((((((((((((((((((Added a Mouse Scroll Callback function)))))))))))))))))))))))))))))))))))))))))))
-//(((((((((((((((((((((((((((((( Allows for movement speed to change )))))))))))))))))))))))))))))))))))))
 
 void ViewManager::Mouse_Scroll_Wheel_Callback(GLFWwindow* window, double xMousePos, double yMousePos)
 {
@@ -190,45 +200,43 @@ void ViewManager::ProcessKeyboardEvents()
 		glfwSetWindowShouldClose(m_pWindow, true);
 	}
 
-
-	//(((((((((((((( Zoom in with W ))))))))))))))))))))
-
+	// W = Zoom in
 	if (glfwGetKey(m_pWindow, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(FORWARD, gDeltaTime);
 	}
 
-	//((((((((((((((( Zoom out with S )))))))))))))))))))
+	// S = Zoom out
 	if (glfwGetKey(m_pWindow, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(BACKWARD, gDeltaTime);
 	}
 
-	//((((((((((((((( Pan left with A )))))))))))))))))))
+	// A = Pan left
 	if (glfwGetKey(m_pWindow, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(LEFT, gDeltaTime);
 	}
 
-	//((((((((((((((( Pan right with D )))))))))))))))))))
+	// D = Pan right
 	if (glfwGetKey(m_pWindow, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(RIGHT, gDeltaTime);
 	}
 
-	//((((((((((((((( Pan up with Q )))))))))))))))))))
+	// Q = Pan up
 	if (glfwGetKey(m_pWindow, GLFW_KEY_Q) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(UP, gDeltaTime);
 	}
 
-	//((((((((((((((( Pan down with E )))))))))))))))))))
+	// E = Pan down
 	if (glfwGetKey(m_pWindow, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		g_pCamera->ProcessKeyboard(DOWN, gDeltaTime);
 	}
 
-	//(((((((((((((( Change to orthographic camera views with O )))))))))))))))))))
+	// O = Change to orthographic camera view
 	if (glfwGetKey(m_pWindow, GLFW_KEY_O) == GLFW_PRESS)
 	{
 		bOrthographicProjection = true;
@@ -237,7 +245,8 @@ void ViewManager::ProcessKeyboardEvents()
 		g_pCamera->Up = glm::vec3(0.0f, 5.0f, 10.0f);
 		g_pCamera->Front = glm::vec3(0.0f, 0.7f, -1.0f);
 	}
-	//((((((((((( Change to perspective projection )))))))))))))))))))))))))
+
+	// P = Change to perspective projection
 	if (glfwGetKey(m_pWindow, GLFW_KEY_P) == GLFW_PRESS) 
 	{
 		bOrthographicProjection = false;
