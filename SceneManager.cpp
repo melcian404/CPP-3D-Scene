@@ -1,10 +1,20 @@
 /* 
-Melissa Cianfarano
-07/20/2024
+Author: Melissa Cianfarano
+Original Completion: 07/20/2024
+Project Objection: Create a 3D model scene using texture, cameras, light, color, and object rendering.
+Add navigational components with hot keys for navigation to pan all directions as well as track mouse movements.
+Project Revision: 03/23/2025
+Revision Objection: Add a new complex object to the scene with appropriate textures, pathways, methods, and meshes.
+Combine object methods and clean up code.
 */
 
-
-
+/*
+Author: Melissa Cianfarano
+Sections edited: SceneManager(ShaderManager), SceneManager::SceneManager, 
+Sections added: SceneManager::LoadSceneTextures, SceneManager::DefineObjectMaterials, ceneManager::SetupSceneLights, 
+SceneManager::PrepareScene, SceneManager::RenderScene, RenderBackground, RenderRingStack, RenderCastle, RenderTrees,
+RenderPyramid, RenderBook, RenderSoccer, RenderRing;
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 // shadermanager.cpp
@@ -44,7 +54,7 @@ SceneManager::SceneManager(ShaderManager *pShaderManager)
 	m_pShaderManager = pShaderManager;
 	m_basicMeshes = new ShapeMeshes();
 
-	// (((((((((((((( Add texture collection )))))))))))))))))))
+	// Added texture collection 
 	for (int i = 0; i < 16; i++) {
 		m_textureIDs[i].tag = "/0";
 		m_textureIDs[i].ID = -1;
@@ -66,7 +76,7 @@ SceneManager::~SceneManager()
 		m_basicMeshes = NULL;
 	}
 
-	// (((((((((( Destroy openGL textures ))))))))))))))
+	// Destroy openGL textures
 	DestroyGLTextures();
 }
 
@@ -394,23 +404,15 @@ void SceneManager::SetShaderMaterial(
 /**************************************************************/
 
 
-// (((((((((((((((( Load scene textures )))))))))))))))))))))
+//  This method is for loading scene textures
 void SceneManager::LoadSceneTextures()
 {
-	/*** STUDENTS - add the code BELOW for loading the textures that ***/
-	/*** will be used for mapping to objects in the 3D scene. Up to  ***/
-	/*** 16 textures can be loaded per scene. Refer to the code in   ***/
-	/*** the OpenGL Sample for help.                                 ***/
-
 	bool bReturn = false;
 
-
-	//((((((((((((((( Add paths to jpg images for textures )))))))))))))))
-
+	// Added texture paths to jpg/png images
 	bReturn = CreateGLTexture(
 		"../../Utilities/textures/Tabletop.jpg", "Tabletop"
 	);
-
 
 	bReturn = CreateGLTexture(
 		"../../Utilities/textures/circlestripe.jpg", "circlestripe"
@@ -429,9 +431,12 @@ void SceneManager::LoadSceneTextures()
 	);
 
 	bReturn = CreateGLTexture(
-		"../../Utilities/textures/spheres.png", "Spheres"
+		"../../Utilities/textures/treetop.png", "Treetop"
 	);
 
+	bReturn = CreateGLTexture(
+		"../../Utilities/textures/bark.png", "Bark"
+	);
 
 	// after the texture image data is loaded into memory, the
 	// loaded textures need to be bound to texture slots - there
@@ -439,7 +444,7 @@ void SceneManager::LoadSceneTextures()
 	BindGLTextures();
 }
 
-// ((((((((((((Define object materials))))))))))))))))))
+//  Define object materials
 void SceneManager::DefineObjectMaterials()
 {
 	OBJECT_MATERIAL glassMaterial;
@@ -471,8 +476,6 @@ void SceneManager::DefineObjectMaterials()
 	goldMaterial.tag = "gold";
 
 	m_objectMaterials.push_back(goldMaterial);
-
-
 }
 
 /***********************************************************
@@ -488,6 +491,7 @@ void SceneManager::SetupSceneLights()
 	// lighting then comment out the following line
 	//m_pShaderManager->setBoolValue(g_UseLightingName, true);
 
+	// Added light source positions and specs
 	m_pShaderManager->setVec3Value("lightSources[0].positon", 5.0f, 2.0f, 2.0f);
 	m_pShaderManager->setVec3Value("lightSources[0].ambientColor", 0.0f, 0.0f, 0.0f);
 	m_pShaderManager->setVec3Value("lightSources[0].diffuseColor", 0.929f, 0.914f, 0.345f);
@@ -502,10 +506,7 @@ void SceneManager::SetupSceneLights()
 	m_pShaderManager->setFloatValue("lightSources[1].focalStrength", 25.0f);
 	m_pShaderManager->setFloatValue("lightSources[1].specularIntensity", 0.2f);
 
-
-
 	m_pShaderManager->setBoolValue(g_UseLightingName, true);
-;
 }
 
 /***********************************************************
@@ -521,20 +522,19 @@ void SceneManager::PrepareScene()
 	// loaded in memory no matter how many times it is drawn
 	// in the rendered 3D scene
 
-	//((((((((((( Load scene textures ))))))))))
+	// Load scene textures / Materials / Lights
 	LoadSceneTextures();
-	//(((((((( Define materials )))))))))))))
 	DefineObjectMaterials();
-	//((((((((((( Scene lights ))))))))))))))
 	SetupSceneLights();
 
+	// Load shape meshes for objects 
 	m_basicMeshes->LoadPlaneMesh();
-	//((((((((((((((((((( Load shape meshes for objects ))))))))))))))))))))))
 	m_basicMeshes->LoadCylinderMesh();
 	m_basicMeshes->LoadSphereMesh();
 	m_basicMeshes->LoadPyramid4Mesh();
 	m_basicMeshes->LoadBoxMesh();
 	m_basicMeshes->LoadTorusMesh();
+	m_basicMeshes->LoadConeMesh();
 }
 
 /***********************************************************
@@ -544,46 +544,38 @@ void SceneManager::PrepareScene()
  *  transforming and drawing the basic 3D shapes
  ***********************************************************/
 
-
-
 void SceneManager::RenderScene()
 {
-
-	//((((((((((((((( Added more shape instances to render scene )))))))))))))))))))
+	// Added shape instances to be rendered
 	RenderBackground();
-	RenderSphere();
-	RenderCylinder();
+	RenderRingStack();
+	RenderCastle();
+	RenderTrees();
 	RenderPyramid();
 	RenderBook();
 	RenderSoccer();
 	RenderRing();
-
 }
-
-
 
 void SceneManager::RenderBackground()
 {
-	// declare the variables for the transformations
+	// declare initial variables for transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
 	float YrotationDegrees = 0.0f;
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	/*** Set needed transformations before drawing the basic mesh.  ***/
-	/*** This same ordering of code should be used for transforming ***/
-	/*** and drawing all the basic 3D shapes.						***/
-	/******************************************************************/
-	// set the XYZ scale for the mesh
+// TABLETOP
+	// set object scale
 	scaleXYZ = glm::vec3(20.0f, 1.0f, 15.0f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -594,23 +586,22 @@ void SceneManager::RenderBackground()
 		ZrotationDegrees,
 		positionXYZ);
 
-	//(((((((((((((((((((((((( Changed color of plane to match table ))))))))))))))))))))))))))))
-	SetShaderColor(0.69, 0.69, 0.647, 1);
+	// Table top texture 
 	SetShaderTexture("Tabletop");
 	
-	// draw the mesh with transformation values
+	// draw mesh
 	m_basicMeshes->DrawPlaneMesh();
 
-	// Create wall for background
-	// set the XYZ scale for the mesh
+// BACKGROUND WALL
+	// set object scale
 	scaleXYZ = glm::vec3(20.0f, 1.0f, 15.0f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 90.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(0.0f, 15.0f, -15.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -621,77 +612,126 @@ void SceneManager::RenderBackground()
 		ZrotationDegrees,
 		positionXYZ);
 
-	//(((((((((((((((((((((((( Changed color of plane to match wall ))))))))))))))))))))))))))))
+	// Set wall color
 	SetShaderColor(0.004, 0.388, 0.298, 1);
 
-	// draw the mesh with transformation values
+	// draw mesh 
 	m_basicMeshes->DrawPlaneMesh();
 }
 
-//((((((((((((((((((((((((((((((( Add a flattened white sphere to the scene )))))))))))))))))))))))))))
-
-void SceneManager::RenderSphere()
+void SceneManager::RenderRingStack()
 {
-
-	// declare the variables for the transformations
+	// declare variables for transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
 	float YrotationDegrees = 0.0f;
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	// Obect Scale using XYZ
+// FLATTENED BASE
+	// Obect Scale
 	scaleXYZ = glm::vec3(0.8f, 3.0f, 3.5f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = -10.0f;
 	YrotationDegrees = -35.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(10.5f, 2.9f, 0.5f);
 
-	// set the transformations into memory to be used on the drawn meshes
+	// set transformations into memory and draw
 	SetTransformations(
 		scaleXYZ,
 		XrotationDegrees,
 		YrotationDegrees,
 		ZrotationDegrees,
 		positionXYZ);
-	// set the color values into the shader
+
+	// set color, shader, material
 	SetShaderColor(1, 1, 1, 1);
 	SetShaderTexture("circlestripe");
 	SetTextureUVScale(1.8, 0.9);
 	SetShaderMaterial("glass");
 
-
-	// draw the mesh with transformation values
+	// draw mesh
 	m_basicMeshes->DrawSphereMesh();
 
+// Elongated Cylinder
+	// Set object Scale 
+	scaleXYZ = glm::vec3(0.6f, 7.0f, 1.0f);
+
+	// set object rotation
+	XrotationDegrees = -10.0f;
+	YrotationDegrees = -35.0f;
+	ZrotationDegrees = 90.0f;
+
+	// set object position
+	positionXYZ = glm::vec3(11.0f, 3.098f, 0.5f);
+
+	// set transformations into memory to be drawn
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set the color, material
+	SetShaderColor(0.988, 0.271, 0.122, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawCylinderMesh();
 }
 
+void SceneManager::RenderCastle() {
 
-//(((((((((((((((((((((((( Add an elongated orange cylinder to the scene ))))))))))))))))))))))
-void SceneManager::RenderCylinder()
-{
-
-	// declare the variables for the transformations
+	// declare variables for transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
 	float YrotationDegrees = 0.0f;
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
-	
-	// Obect Scale using XYZ
-	scaleXYZ = glm::vec3(0.6f, 7.0f, 1.0f);
 
-	// set the XYZ rotation for the mesh
-	XrotationDegrees = -10.0f;
-	YrotationDegrees = -35.0f;
-	ZrotationDegrees = 90.0f;
+// FAR LEFT LOWER BOX
+		// Obect Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
 
-	// set the XYZ position for the mesh
-	positionXYZ = glm::vec3(11.0f, 3.098f, 0.5f);
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(-9.5f, 2.53f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color, shader, material
+	SetShaderColor(1, 0.9, 0, 1);
+	SetShaderMaterial("glass");
+
+	// draw the mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// FAR LEFT PYRAMID
+	// Set object scale
+	scaleXYZ = glm::vec3(5.0f, 4.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position
+	positionXYZ = glm::vec3(-9.5f, 7.0f, -11.5f);
 
 	// set the transformations into memory to be used on the drawn meshes
 	SetTransformations(
@@ -700,20 +740,285 @@ void SceneManager::RenderCylinder()
 		YrotationDegrees,
 		ZrotationDegrees,
 		positionXYZ);
-	// set the color values into the shader
-	SetShaderColor(0.988, 0.271, 0.122, 1);
+
+	// set texture and material
+	SetShaderColor(0, 0.1, 1, 1);
 	SetShaderMaterial("glass");
 
-	// draw the mesh with transformation values
-	m_basicMeshes->DrawCylinderMesh();
+	// draw mesh
+	m_basicMeshes->DrawPyramid4Mesh();
 
+// LEFT LOWER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(-4.5f, 2.53f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0.1, 0.8, 0, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// LEFT UPPER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(-4.5f, 7.5f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0.5, 0, 0.8, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// LEFT LARGE PYRAMID
+	// Set object scale
+	scaleXYZ = glm::vec3(5.0f, 8.0f, 5.0f);
+
+	// set the XYZ rotation for the mesh
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// Set object position
+	positionXYZ = glm::vec3(-4.5f, 14.0f, -11.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(1, 0, 0, 1);
+	SetShaderMaterial("glass");
+
+	m_basicMeshes->DrawPyramid4Mesh();
+
+// MIDDLE UPPER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(0.5f, 7.5f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(1, 0.9, 0, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// MIDDLE PYRAMID
+	// Set object Scale 
+	scaleXYZ = glm::vec3(5.0f, 4.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position
+	positionXYZ = glm::vec3(0.5f, 12.0f, -11.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0, 0.1, 1, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawPyramid4Mesh();
+
+// RIGHT LOWER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(5.5f, 2.53f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0.1, 0.8, 0, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// RIGHT UPPER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(5.5f, 7.5f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0.5, 0, 0.8, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// RIGHT LARGE PYRAMID
+	// Set object scale
+	scaleXYZ = glm::vec3(5.0f, 8.0f, 5.0f);
+
+	// Set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// Set object position
+	positionXYZ = glm::vec3(5.5f, 14.0f, -11.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// Set color and material
+	SetShaderColor(1, 0, 0, 1);
+	SetShaderMaterial("glass");
+
+	// Draw mesh
+	m_basicMeshes->DrawPyramid4Mesh();
+
+// FAR RIGHT LOWER BOX
+	// Set object Scale
+	scaleXYZ = glm::vec3(5.0f, 5.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(10.5f, 2.53f, -11.5f);
+
+	// set transformations into memory and draw
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(1, 0.9, 0, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawBoxMesh();
+
+// FAR RIGHT PYRAMID
+	// Set object scale
+	scaleXYZ = glm::vec3(5.0f, 4.0f, 5.0f);
+
+	// set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position
+	positionXYZ = glm::vec3(10.5f, 7.0f, -11.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set color and material
+	SetShaderColor(0, 0.1, 1, 1);
+	SetShaderMaterial("glass");
+
+	// draw mesh
+	m_basicMeshes->DrawPyramid4Mesh();
 }
 
-//((((((((((((((((((((((((((((((( Add a pyramid to the scene )))))))))))))))))))))))))))
-// CREATE SAME SIZE PYRAMIDS / DIFFERENT COLORS / Move Slightly each direction
-
-void SceneManager::RenderPyramid()
-{
+void SceneManager::RenderTrees(){
 
 	// declare the variables for the transformations
 	glm::vec3 scaleXYZ;
@@ -722,16 +1027,136 @@ void SceneManager::RenderPyramid()
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	// Front And Back Face
+// LEFT TREE TOP
+	// Set object scale
+	scaleXYZ = glm::vec3(3.0f, 8.0f, 3.0f);
+
+	// set the XYZ rotation for the mesh
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(-15.5f, 2.53f, -9.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set texture and material
+	SetShaderTexture("Treetop");
+	SetTextureUVScale(2.0, 4.0);
+	SetShaderMaterial("wood");
+
+	// draw mesh
+	m_basicMeshes->DrawConeMesh();
+
+// LEFT TREE BASE
+	// Set object scale
+	scaleXYZ = glm::vec3(0.5f, 3.0f, 0.5f);
+
+	// set the XYZ rotation for the mesh
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(-15.5f, 0.0f, -9.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set texture and material
+	SetShaderTexture("Bark");
+	SetTextureUVScale(1.0, 1.0);
+	SetShaderMaterial("wood");
+
+	// Draw mesh
+	m_basicMeshes->DrawCylinderMesh();
+
+// RIGHT TREE TOP
+	// Set object scale
+	scaleXYZ = glm::vec3(3.0f, 8.0f, 3.0f);
+
+	// Set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(16.5f, 2.53f, -9.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set texture and material
+	SetShaderTexture("Treetop");
+	SetTextureUVScale(2.0, 4.0);
+	SetShaderMaterial("wood");
+
+	m_basicMeshes->DrawConeMesh();
+
+// RIGHT TREE BASE
+	// Set object scale
+	scaleXYZ = glm::vec3(0.5f, 3.0f, 0.5f);
+
+	// Set object rotation
+	XrotationDegrees = 0.0f;
+	YrotationDegrees = 0.0f;
+	ZrotationDegrees = 0.0f;
+
+	// set object position   L-R     U-D    F-B
+	positionXYZ = glm::vec3(16.5f, 0.0f, -9.5f);
+
+	// set the transformations into memory to be used on the drawn meshes
+	SetTransformations(
+		scaleXYZ,
+		XrotationDegrees,
+		YrotationDegrees,
+		ZrotationDegrees,
+		positionXYZ);
+
+	// set texture and material
+	SetShaderTexture("Bark");
+	SetTextureUVScale(1.0, 1.0);
+	SetShaderMaterial("wood");
+
+	m_basicMeshes->DrawCylinderMesh();
+}
+
+void SceneManager::RenderPyramid()
+{
+	// declare the variables for the transformations
+	glm::vec3 scaleXYZ;
+	float XrotationDegrees = 0.0f;
+	float YrotationDegrees = 0.0f;
+	float ZrotationDegrees = 0.0f;
+	glm::vec3 positionXYZ;
+
+// FRONT AND BACK FACE
 	// Obect Scale using XYZ
 	scaleXYZ = glm::vec3(3.9f, 3.9f, 3.9f);
 
-	// set the XYZ rotation for the mesh
+	// set Ojbect rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 10.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(-5.0f, 1.98f, 7.76f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -742,22 +1167,23 @@ void SceneManager::RenderPyramid()
 		ZrotationDegrees,
 		positionXYZ);
 
-	// set texture color
+	// set color and material
 	SetShaderColor(1, 0.11, 0.11, 1);
 	SetShaderMaterial("glass");
 
+	// draw mesh
 	m_basicMeshes->DrawPyramid4Mesh();
 
-	// right Face
-	// Obect Scale using XYZ
+// RIGHT FACE
+	// Set object scale
 	scaleXYZ = glm::vec3(3.85f, 3.85f, 3.85f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 10.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(-4.96f, 1.98f, 7.76f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -768,23 +1194,23 @@ void SceneManager::RenderPyramid()
 		ZrotationDegrees,
 		positionXYZ);
 
-
-	// set texture color
+	// set color and material
 	SetShaderColor(1, 0.941, 0.11, 1);
 	SetShaderMaterial("glass");
 
+	// draw mesh
 	m_basicMeshes->DrawPyramid4Mesh();
 
-	// left Face
-	// Obect Scale using XYZ
+// LEFT FACE
+	// Set object scale
 	scaleXYZ = glm::vec3(3.85f, 3.85f, 3.85f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 10.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(-5.02f, 1.98f, 7.76f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -795,17 +1221,16 @@ void SceneManager::RenderPyramid()
 		ZrotationDegrees,
 		positionXYZ);
 
-
-	// set texture color
+	// set color and material
 	SetShaderColor(0.11, 0.141, 1, 1);
 	SetShaderMaterial("glass");
 
+	// draw mesh
 	m_basicMeshes->DrawPyramid4Mesh();
 }
 
 void SceneManager::RenderBook()
 {
-
 	// declare the variables for the transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
@@ -813,15 +1238,15 @@ void SceneManager::RenderBook()
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	// Obect Scale using XYZ
+	// Set object scale
 	scaleXYZ = glm::vec3(11.0f, 1.7f, 11.0f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(0.75f, 0.96f, 0.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -832,23 +1257,23 @@ void SceneManager::RenderBook()
 		ZrotationDegrees,
 		positionXYZ);
 
-	// set texture color
-	SetShaderColor(1, 1, 1, 1);
+	// set texture and scale
 	SetShaderTexture("Rocket");
 	SetTextureUVScale(1.0, 1.0);
 
+	// draw mesh
 	m_basicMeshes->DrawBoxMesh();
 
-	// (((((( add pages to book )))))))))))
-	// Obect Scale using XYZ
+// PAGES
+	// Set object scale
 	scaleXYZ = glm::vec3(11.0f, 1.55f, 11.02f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(0.78f, 0.95f, 0.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -859,25 +1284,23 @@ void SceneManager::RenderBook()
 		ZrotationDegrees,
 		positionXYZ);
 
-
-	// set texture color
-	SetShaderColor(1, 1, 1, 1);
+	// set texture and scale
 	SetShaderTexture("Pages");
-	SetTextureUVScale(1.0, 1.0);
-	
+	SetTextureUVScale(1.0, 1.0);	
 
+	// draw mesh
 	m_basicMeshes->DrawBoxMesh();
 
-	// ((((((((((( Add binding to book )))))))))))))))
-	// Obect Scale using XYZ
+// BOOK BINDING
+	// Set object scale
 	scaleXYZ = glm::vec3(11.0f, 1.56f, 11.01f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(0.749f, 0.95f, 0.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -888,17 +1311,15 @@ void SceneManager::RenderBook()
 		ZrotationDegrees,
 		positionXYZ);
 
-
-	// set texture color
+	// set color
 	SetShaderColor(859, 0.306, 0.306, 1);
-	
+
+	// draw mesh
 	m_basicMeshes->DrawBoxMesh();
 }
 
-
 void SceneManager::RenderSoccer()
 {
-
 	// declare the variables for the transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
@@ -906,16 +1327,16 @@ void SceneManager::RenderSoccer()
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	// Obect Scale using XYZ
+	// Set object scale
 	scaleXYZ = glm::vec3(2.75f, 2.75f, 2.75f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 0.0f;
 	YrotationDegrees = 0.0f;
 	ZrotationDegrees = 0.0f;
 
-	// set the XYZ position for the mesh
-	positionXYZ = glm::vec3(-7.355f, 2.75f, -5.0f);
+	// set object position
+	positionXYZ = glm::vec3(-10.0f, 2.75f, 2.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
 	SetTransformations(
@@ -924,20 +1345,18 @@ void SceneManager::RenderSoccer()
 		YrotationDegrees,
 		ZrotationDegrees,
 		positionXYZ);
-	// set the color values into the shader
-	SetShaderColor(1, 1, 1, 1);
+
+	// set texture, scale, and material
 	SetShaderTexture("Soccer");
 	SetTextureUVScale(1.2, 0.8);
 	SetShaderMaterial("glass");
 
-	// draw the mesh with transformation values
+	// draw mesh
 	m_basicMeshes->DrawSphereMesh();
-
 }
 
 void SceneManager::RenderRing()
 {
-
 	// declare the variables for the transformations
 	glm::vec3 scaleXYZ;
 	float XrotationDegrees = 0.0f;
@@ -945,15 +1364,15 @@ void SceneManager::RenderRing()
 	float ZrotationDegrees = 0.0f;
 	glm::vec3 positionXYZ;
 
-	// Obect Scale using XYZ
+	// Set object scale
 	scaleXYZ = glm::vec3(1.8f, 1.8f, 2.8f);
 
-	// set the XYZ rotation for the mesh
+	// set object rotation
 	XrotationDegrees = 310.0f; 
 	YrotationDegrees = 42.2f;   
 	ZrotationDegrees = 45.0f;  
 
-	// set the XYZ position for the mesh
+	// set object position
 	positionXYZ = glm::vec3(5.75f, 1.92f, 5.0f);
 
 	// set the transformations into memory to be used on the drawn meshes
@@ -963,16 +1382,11 @@ void SceneManager::RenderRing()
 		YrotationDegrees,
 		ZrotationDegrees,
 		positionXYZ);
-	// set the color values into the shader
+
+	// set color and material
 	SetShaderColor(0.78, 0.78, 0.78, 0.5);
 	SetShaderMaterial("glass");
 
-	// draw the mesh with transformation values
-	m_basicMeshes->DrawTorusMesh();
-
-	
+	// draw mesh
+	m_basicMeshes->DrawTorusMesh();	
 }
-
-
-
-
