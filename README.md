@@ -7,3 +7,13 @@
   A lot of this code was designed to be portable, so in creating future projects it could be transferred over and reused with small changes for the desired result. When performing any future projects, it’ll be best to have a clear vision of the result and to break it up into smaller easy to handle portions to keep the design organized and attainable. This approach was taken while building this project throughout the weeks and it organization of the steps helped prevent the project from becoming overwhelming. Making sure all components worked accordingly before advancing to the next task was key to the success of the project.
 
   Having knowledge of OpenGL and 3D rendering is a huge advantage in today’s world where 3D and Augmented Reality, Virtual Reality, and Mixed Reality are becoming a major part of everyone’s daily life is an amazing skillset with a demand to match it. Immersive technology is one of the fastest growing and fascinating technologies present today. A lot of companies are invested in using this technology to improve their products and appeal to end users. Meta has produced a mixed-reality headset where you can see your surroundings and integrate graphics within them making them more believable. Google is using 3D imaging with Project Starline, to improve remote meetings and replicate the feeling of an in-person meeting. Niantic is creating a cool augmented reality map of the world where the developer hides digital prizes near monumental structures. These are just an extremely small example of what companies are using 3D rendering for, so you can see the potential and need for this skillset are limitless.
+
+Original Scene
+  ![3DOriginalScene](https://github.com/user-attachments/assets/4c3a1934-a472-41c4-b96b-d287ec3a4703)
+
+Original Project Result
+![Created Scene 1](https://github.com/user-attachments/assets/16888473-d6e6-4949-9d3e-95e9dfba75b3)
+
+Enhanced Project Result
+![EnhancedScene](https://github.com/user-attachments/assets/398ef908-d168-4322-82c2-bada2986b3fd)
+
