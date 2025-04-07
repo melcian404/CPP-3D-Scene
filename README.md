@@ -8,8 +8,10 @@
 
   Having knowledge of OpenGL and 3D rendering is a huge advantage in today’s world where 3D and Augmented Reality, Virtual Reality, and Mixed Reality are becoming a major part of everyone’s daily life is an amazing skillset with a demand to match it. Immersive technology is one of the fastest growing and fascinating technologies present today. A lot of companies are invested in using this technology to improve their products and appeal to end users. Meta has produced a mixed-reality headset where you can see your surroundings and integrate graphics within them making them more believable. Google is using 3D imaging with Project Starline, to improve remote meetings and replicate the feeling of an in-person meeting. Niantic is creating a cool augmented reality map of the world where the developer hides digital prizes near monumental structures. These are just an extremely small example of what companies are using 3D rendering for, so you can see the potential and need for this skillset are limitless.
 
-Original Scene
-![Picture1](https://github.com/user-attachments/assets/6bd71d01-809e-4e91-9283-681b7f288de3)
+Original Scene ![OriginalScene](https://github.com/user-attachments/assets/d2a74f46-bb75-414a-826e-67e28c2a1e82)
+
+
+
 
 Original Project Result
 ![Created Scene 1](https://github.com/user-attachments/assets/16888473-d6e6-4949-9d3e-95e9dfba75b3)
