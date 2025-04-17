@@ -2,13 +2,19 @@
 
 ## Original Project
 
-<details>
+<details open>
 	<summary>
 		3D Scene Origin Photo
 	</summary>
 	
   ![OriginalScene](https://github.com/user-attachments/assets/d2a74f46-bb75-414a-826e-67e28c2a1e82)
 	
+</details>
+
+
+<details>
+	<summary>Project Descritpion</summary>
+	This artifact utilizes an OpenGL graphics processing unit (GPU) and C++ to create a 3D model using texture, lighting, and object rendering and controls the virtual environment with hotkeys and camera positions. This includes zooming in and out, panning up and down, left and right, as well as tracking mouse movement. The scene required a combination of simple and complex objects. It depicts a scene of children's toys on a table and was initially created on July 20, 2024.
 </details>
 
 <details>
@@ -40,26 +46,27 @@ Having knowledge of OpenGL and 3D rendering is a significant advantage in todayâ
   
 </details>
 
+<details open>
+	<summary>Original Result Image</summary>
+	
+![Original Scene](https://github.com/melcian404/melcian404.github.io/blob/main/docs/assets/OriginalScene.png)
+	
+</details>
+
 
 
 ## Enhanced Project
 
-
-## Project Enhancement Plan
-- To enhance this project, I will clean up the prior code to make it more reader-friendly with inline comments and improved overall organization. I'll combine methods and use better naming practices for those methods. Then, I'll add more complex objects to this scene. This will require loading new textures and JPEG image files, creating pathways to them, adding the necessary shape meshes, creating a new shape instance, and rendering all of the above. The SceneManager.cpp, SceneManager.h, and image library will need to be revisited for these tasks.
-
-## Enhanced Project Result
-- I exceeded my original expectations for this enhancement plan. My original intention was to add another complex object to the scene. I added three complex objects of varying shapes, colors, sizes, and other characteristics. I also excelled in refining existing methods by combining objects, eliminating multiple-line redundancies, and refining my inline comments to make them more comprehensible. I also added block comments at the top of each page, annotating the changes and additions Iâ€™ve completed.
-
-+++++++++++++++++++++++
-
 <details>
-	<summary>Project Descritpion</summary>
-	This artifact utilizes an OpenGL graphics processing unit (GPU) and C++ to create a 3D model using texture, lighting, and object rendering and controls the virtual environment with hotkeys and camera positions. This includes zooming in and out, panning up and down, left and right, as well as tracking mouse movement. The scene required a combination of simple and complex objects. It depicts a scene of children's toys on a table and was initially created on July 20, 2024.
+	<summary>
+		Project Enhancement Plan
+	</summary>
+	To enhance this project, I will clean up the prior code to make it more reader-friendly with inline comments and improved overall organization. I'll combine methods and use better naming practices for those methods. Then, I'll add more complex objects to this scene. This will require loading new textures and JPEG image files, creating pathways to them, adding the necessary shape meshes, creating a new shape instance, and rendering all of the above. The SceneManager.cpp, SceneManager.h, and image library will need to be revisited for these tasks.
 </details>
 
+
 <details>
-  <summary>Project Enhancements</summary>
+  <summary>Enhancements Completed</summary>
 
   -  Refined inline comments to be concise and descriptive for detailing each function of code.
   -  Adding block comments to detail portions of code completed.
@@ -68,8 +75,8 @@ Having knowledge of OpenGL and 3D rendering is a significant advantage in todayâ
 
 </details>
 
-<details>
-  <summary>Created Object Example</summary>
+<details open>
+  <summary>Combined Object Example</summary>
 
   ```C++
 	void SceneManager::RenderTrees(){
@@ -113,15 +120,14 @@ Having knowledge of OpenGL and 3D rendering is a significant advantage in todayâ
 </details>
 
 <details>
-	<summary>Original Result Image</summary>
-	
-![Original Scene](https://github.com/melcian404/melcian404.github.io/blob/main/docs/assets/OriginalScene.png)
-	
+	<summary>
+		Enhanced Project Review
+	</summary>
+	I exceeded my original expectations for this enhancement plan. My original intention was to add another complex object to the scene. I added three complex objects of varying shapes, colors, sizes, and other characteristics. I also excelled in refining existing methods by combining objects, eliminating multiple-line redundancies, and refining my inline comments to make them more comprehensible. I also added block comments at the top of each page, annotating the changes and additions Iâ€™ve completed.
 </details>
 
 
-
-<details>
+<details open>
   <summary>Enhanced Result Image</summary>
 
 ![EnhancedScene](https://github.com/melcian404/melcian404.github.io/blob/main/docs/assets/EnhancedScene.png)
