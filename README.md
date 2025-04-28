@@ -6,12 +6,12 @@
 
 ![EnhancedScene](https://github.com/user-attachments/assets/2fbe80c0-2cee-4191-9d7a-8add64b62d5f)
 
-<details>
+<details open>
 	<summary>Project Descritpion</summary>
 This artifact utilizes an OpenGL graphics processing unit (GPU) and C++ to create a 3D model using texture, lighting, and object rendering. It also controls the virtual environment with hot keys and camera positions. This includes zooming in and out, panning up and down, left and right, and tracking mouse movement. The scene required a combination of simple and complex objects. It depicts a scene of children's toys on a table and was initially created in July 2024 then revamped in April 2025.
 </details>
 
-<details>
+<details open>
 	<summary>
 		Why OpenGL?
 	</summary>
@@ -20,7 +20,7 @@ Knowledge of OpenGL and 3D rendering is a significant advantage in today’s wor
 
 </details>  
 
-<details>
+<details open>
 	<summary>
 		Design Process
 	</summary>
@@ -31,7 +31,7 @@ Knowledge of OpenGL and 3D rendering is a significant advantage in today’s wor
   
 </details>
 
-<details>
+<details open>
   <summary>Example Object</summary>
 
   ```C++
