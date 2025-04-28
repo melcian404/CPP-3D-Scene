@@ -1,15 +1,10 @@
 # 3D Rendered Scene Using Visual Studio and C++
 
-## Original Project
+<video width="560" height="315" controls loop="" muted = "" autoplay="">
+  <source src="https://github.com/melcian404/melcian404.github.io/raw/refs/heads/main/docs/assets/3Dvid.mp4">
+</video>
 
-<details open>
-	<summary>
-		3D Scene Origin Photo
-	</summary>
-	
-  ![OriginalScene](https://github.com/user-attachments/assets/d2a74f46-bb75-414a-826e-67e28c2a1e82)
-	
-</details>
+
 
 
 <details>
