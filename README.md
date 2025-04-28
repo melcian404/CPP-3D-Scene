@@ -1,10 +1,8 @@
 # 3D Rendered Scene Using Visual Studio and C++
 
 <video width="560" height="315" controls loop="" muted = "" autoplay="">
-  <source src="https://github.com/melcian404/melcian404.github.io/raw/refs/heads/main/docs/assets/3Dvid.mp4">
+  <source src="https://github.com/melcian404/CPP-3D-Scene/blob/main/3Dvid.mp4">
 </video>
-
-
 
 
 <details>
