@@ -4,6 +4,7 @@
   <source src="https://github.com/melcian404/CPP-3D-Scene/blob/main/documents/3Dvid.mp4">
 </video>
 
+![EnhancedScene](https://github.com/user-attachments/assets/2fbe80c0-2cee-4191-9d7a-8add64b62d5f)
 
 <details>
 	<summary>Project Descritpion</summary>
