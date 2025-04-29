@@ -7,6 +7,10 @@
 ![EnhancedScene](https://github.com/user-attachments/assets/2fbe80c0-2cee-4191-9d7a-8add64b62d5f)
 
 [Project Description](#project-description)
+[Why OpenGL?](#openGL)
+[Design Process](#design-process)
+[Example Object](#example-object)
+
 
 ## Project Description
 
@@ -15,19 +19,15 @@
 This artifact utilizes an OpenGL graphics processing unit (GPU) and C++ to create a 3D model using texture, lighting, and object rendering. It also controls the virtual environment with hot keys and camera positions. This includes zooming in and out, panning up and down, left and right, and tracking mouse movement. The scene required a combination of simple and complex objects. It depicts a scene of children's toys on a table and was initially created in July 2024 then revamped in April 2025.
 </details>
 
+## OpenGL
 <details open>
-	<summary>
-		Why OpenGL?
-	</summary>
 	
 Knowledge of OpenGL and 3D rendering is a significant advantage in today’s world, where 3D and Augmented Reality, Virtual Reality, and Mixed Reality are becoming an integral part of everyone’s daily life. This skill set has a demand to match. Immersive technology is one of the fastest-growing and most fascinating technologies available today. Many companies invest in this technology to enhance their products and appeal to end users. Meta has developed a mixed-reality headset that lets you see your surroundings and seamlessly integrate graphics, making them more realistic. Google is utilizing 3D imaging with Project Starline to enhance remote meetings and replicate an in-person meeting experience. Niantic is creating a cool augmented reality map of the world, where developers hide digital prizes near monumental structures. These are just a tiny example of what companies use 3D rendering for, so you can see that the potential and need for this skill set are limitless.	
 
 </details>  
 
+## Design Process
 <details open>
-	<summary>
-		Design Process
-	</summary>
 
  - The design process began by adding the shapes and positioning them in the desired area of the scene. The keyboard and mouse hotkey movements were added to pan through the scene, ensuring objects were placed and sized correctly. Color hex codes were added to objects that were not wrapped in a texture. Texture wraps were added to the library and applied to objects. Shader materials like glass or wood were added to replicate the texture appearances. Lights were added to enhance the shader materials and create reflections from the objects. This project relied heavily on iterating shape meshes. The basic build of each shape was incorporated into the starter code, and I had to reuse the shape meshes multiple times to obtain all the necessary objects for this design. For example, the pyramid in this scene comprises three pyramids of different colors, blended to achieve the desired effect of multiple-colored faces.
   
@@ -35,8 +35,10 @@ Knowledge of OpenGL and 3D rendering is a significant advantage in today’s wor
   
 </details>
 
+## Example Object
+
 <details open>
-  <summary>Example Object</summary>
+
 
   ```C++
 	void SceneManager::RenderTrees(){
