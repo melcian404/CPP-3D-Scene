@@ -6,13 +6,15 @@
 
 ![EnhancedScene](https://github.com/user-attachments/assets/2fbe80c0-2cee-4191-9d7a-8add64b62d5f)
 
-[Project Description](#project-description)
+# Table of Contents
 
-[Why Use OpenGL](#opengl)
+1. [Project Description](#project-description)
 
-[Design Process](#design-process)
+2. [Why Use OpenGL](#opengl)
 
-[Example Object](#example-object)
+3. [Design Process](#design-process)
+
+4. [Example Object](#example-object)
 
 
 ## Project Description
